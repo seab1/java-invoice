@@ -82,7 +82,7 @@ public class InvoiceTest {
 	}
 
 	@Test
-	public void testInvoiceHasPropoerSubtotalWithQuantityMoreThanOne()
+	public void testInvoiceHasProperSubtotalWithQuantityMoreThanOne()
 	{
 		// 2x kubek - price: 10
 		invoice.addProduct(new TaxFreeProduct("Kubek", new BigDecimal("5")), 2);
