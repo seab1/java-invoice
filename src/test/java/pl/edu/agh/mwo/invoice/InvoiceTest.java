@@ -17,34 +17,40 @@ public class InvoiceTest {
 	private Invoice invoice;
 
 	@Before
-	public void createEmptyInvoiceForTheTest() {
+	public void createEmptyInvoiceForTheTest()
+	{
 		invoice = new Invoice();
 	}
 
 	@Test
-	public void testEmptyInvoiceHasEmptySubtotal() {
+	public void testEmptyInvoiceHasEmptySubtotal()
+	{
 		Assert.assertThat(BigDecimal.ZERO, Matchers.comparesEqualTo(invoice.getSubtotal()));
 	}
 
 	@Test
-	public void testEmptyInvoiceHasEmptyTaxAmount() {
+	public void testEmptyInvoiceHasEmptyTaxAmount()
+	{
 		Assert.assertThat(BigDecimal.ZERO, Matchers.comparesEqualTo(invoice.getTax()));
 	}
 
 	@Test
-	public void testEmptyInvoiceHasEmptyTotal() {
+	public void testEmptyInvoiceHasEmptyTotal()
+	{
 		Assert.assertThat(BigDecimal.ZERO, Matchers.comparesEqualTo(invoice.getTotal()));
 	}
 
 	@Test
-	public void testInvoiceHasTheSameSubtotalAndTotalIfTaxIsZero() {
+	public void testInvoiceHasTheSameSubtotalAndTotalIfTaxIsZero()
+	{
 		Product taxFreeProduct = new TaxFreeProduct("Warzywa", new BigDecimal("199.99"));
 		invoice.addProduct(taxFreeProduct);
 		Assert.assertThat(invoice.getTotal(), Matchers.comparesEqualTo(invoice.getSubtotal()));
 	}
 
 	@Test
-	public void testInvoiceHasProperSubtotalForManyProducts() {
+	public void testInvoiceHasProperSubtotalForManyProducts()
+	{
 		invoice.addProduct(new TaxFreeProduct("Owoce", new BigDecimal("200")));
 		invoice.addProduct(new DairyProduct("Maslanka", new BigDecimal("100")));
 		invoice.addProduct(new OtherProduct("Wino", new BigDecimal("10")));
@@ -52,7 +58,8 @@ public class InvoiceTest {
 	}
 
 	@Test
-	public void testInvoiceHasProperTaxValueForManyProduct() {
+	public void testInvoiceHasProperTaxValueForManyProduct()
+	{
 		// tax: 0
 		invoice.addProduct(new TaxFreeProduct("Pampersy", new BigDecimal("200")));
 		// tax: 8
@@ -63,7 +70,8 @@ public class InvoiceTest {
 	}
 
 	@Test
-	public void testInvoiceHasProperTotalValueForManyProduct() {
+	public void testInvoiceHasProperTotalValueForManyProduct()
+	{
 		// price with tax: 200
 		invoice.addProduct(new TaxFreeProduct("Maskotki", new BigDecimal("200")));
 		// price with tax: 108
@@ -74,7 +82,8 @@ public class InvoiceTest {
 	}
 
 	@Test
-	public void testInvoiceHasPropoerSubtotalWithQuantityMoreThanOne() {
+	public void testInvoiceHasPropoerSubtotalWithQuantityMoreThanOne()
+	{
 		// 2x kubek - price: 10
 		invoice.addProduct(new TaxFreeProduct("Kubek", new BigDecimal("5")), 2);
 		// 3x kozi serek - price: 30
@@ -85,7 +94,8 @@ public class InvoiceTest {
 	}
 
 	@Test
-	public void testInvoiceHasPropoerTotalWithQuantityMoreThanOne() {
+	public void testInvoiceHasPropoerTotalWithQuantityMoreThanOne()
+	{
 		// 2x chleb - price with tax: 10
 		invoice.addProduct(new TaxFreeProduct("Chleb", new BigDecimal("5")), 2);
 		// 3x chedar - price with tax: 32.40
@@ -96,12 +106,14 @@ public class InvoiceTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testInvoiceWithZeroQuantity() {
+	public void testInvoiceWithZeroQuantity()
+	{
 		invoice.addProduct(new TaxFreeProduct("Tablet", new BigDecimal("1678")), 0);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void testInvoiceWithNegativeQuantity() {
+	public void testInvoiceWithNegativeQuantity()
+	{
 		invoice.addProduct(new DairyProduct("Zsiadle mleko", new BigDecimal("5.55")), -1);
 	}
 }
