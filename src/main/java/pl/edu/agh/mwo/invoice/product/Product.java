@@ -12,7 +12,7 @@ public abstract class Product
 	{
 		if(name == "" || name == null) throw new IllegalArgumentException();
 		else this.name = name;
-		if(price == null) throw new IllegalArgumentException();
+		if(price == null || price.compareTo(new BigDecimal("0")) < 0) throw new IllegalArgumentException();
 		else this.price = price;
 		this.taxPercent = tax;
 	}
