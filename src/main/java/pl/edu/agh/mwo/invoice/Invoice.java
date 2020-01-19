@@ -8,11 +8,7 @@ import pl.edu.agh.mwo.invoice.product.Product;
 
 public class Invoice
 {
-	private Collection<Product> products;
-
-	public void addProduct(Product product)
-	{
-		private Collection<Product> products = new ArrayList<>();
+	private Collection<Product> products = new ArrayList<>();
 
 	public void addProduct(Product product)
 	{
@@ -50,7 +46,7 @@ public class Invoice
 
 	public BigDecimal getTax()
 	{
-		BigDecimal sumWithTax = BigDecimal.ZERO
+		BigDecimal sumWithTax = BigDecimal.ZERO;
 
 		for(Product product : this.products)
 		{
