@@ -1,6 +1,7 @@
 package pl.edu.agh.mwo.invoice;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 import org.hamcrest.Matchers;
 import org.junit.Assert;
@@ -128,5 +129,42 @@ public class InvoiceTest {
         int number1 = new Invoice().getNumber();
         int number2 = new Invoice().getNumber();
         Assert.assertThat(number1, Matchers.lessThan(number2));
+    }
+    
+    @Test
+    public void testInvoicePrinterDisplaysCorrectNumberOfLines()
+    {
+    	invoice.addProduct(new TaxFreeProduct("Owoce", new BigDecimal("200")));
+        invoice.addProduct(new DairyProduct("Maslanka", new BigDecimal("100")));
+        invoice.addProduct(new OtherProduct("Wino", new BigDecimal("10")));
+        
+        String invoiceDisplay = invoice.displayMe();
+        int numberOfLines = invoiceDisplay.split("\n").length;
+        Assert.assertEquals(numberOfLines, invoice.getProducts().size() + 2);
+    }
+    
+    @Test
+    public void testInvoicePrinterDisplaysCorrectLayout()
+    {
+    	invoice.addProduct(new TaxFreeProduct("Owoce", new BigDecimal("200")));
+        invoice.addProduct(new DairyProduct("Maslanka", new BigDecimal("100")));
+        invoice.addProduct(new OtherProduct("Wino", new BigDecimal("10")));
+        
+        String[] invoiceDisplay = invoice.displayMe().split("\n");
+        String currentLine = "Faktura numer: " + invoice.getNumber();        
+        Assert.assertEquals(invoiceDisplay[0], currentLine);
+        
+        currentLine = "Liczba pozycji: " + invoice.getProducts().size();
+    	Assert.assertEquals(invoiceDisplay[invoiceDisplay.length - 1], currentLine);
+    	
+    	int iterator = 1;
+    	for(Map.Entry<Product, Integer> entry : invoice.getProducts().entrySet())
+    	{
+    		currentLine = "Produkt: " + entry.getKey().getName() + ", Ilosc: " + entry.getValue() + ", Cena: " + entry.getKey().getPrice();
+    		Assert.assertEquals(invoiceDisplay[iterator], currentLine);
+    		iterator++;
+    	}
+    	
+    	Assert.assertTrue(iterator == invoiceDisplay.length - 1);
     }
 }

@@ -46,4 +46,22 @@ public class Invoice {
     public int getNumber() {
         return number;
     }
+    
+    public Map<Product, Integer> getProducts()
+    {
+    	return products;
+    }
+    
+    public String displayMe()
+    {
+    	String invoiceDisplay = "Faktura numer: " + this.number + "\n";
+    	
+    	for(Map.Entry<Product, Integer> entry : products.entrySet())
+    	{
+    		invoiceDisplay += "Produkt: " + entry.getKey().getName() + ", Ilosc: " + entry.getValue() + ", Cena: " + entry.getKey().getPrice() + "\n";
+    	}
+    	invoiceDisplay += "Liczba pozycji: " + products.size();
+    	
+    	return invoiceDisplay;
+    }
 }
