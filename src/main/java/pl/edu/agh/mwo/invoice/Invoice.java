@@ -10,15 +10,21 @@ public class Invoice {
     private static int nextNumber = 0;
     private final int number = ++nextNumber;
 
-    public void addProduct(Product product) {
-        addProduct(product, 1);
+    public void addProduct(Product product)
+    {
+        if(this.products.containsKey(product)) products.put(product, this.products.get(product) + 1);
+        else products.put(product, 1);
     }
 
-    public void addProduct(Product product, Integer quantity) {
-        if (product == null || quantity <= 0) {
+    public void addProduct(Product product, Integer quantity)
+    {
+        if (product == null || quantity <= 0)
+        {
             throw new IllegalArgumentException();
         }
-        products.put(product, quantity);
+        
+        if(this.products.containsKey(product)) products.put(product, this.products.get(product) + quantity);
+        else products.put(product, quantity);
     }
 
     public BigDecimal getNetTotal() {

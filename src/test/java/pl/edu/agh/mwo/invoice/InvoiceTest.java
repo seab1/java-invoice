@@ -167,4 +167,71 @@ public class InvoiceTest {
     	
     	Assert.assertTrue(iterator == invoiceDisplay.length - 1);
     }
+    
+    @Test
+    public void testProductAmountIncreasesWhenAddedSingly()
+    {
+        Product product = new TaxFreeProduct("Owczy ser", new BigDecimal("30")); 
+        
+        Integer additions = 3;
+        for (int i = 0; i < additions; i++)
+        {
+            invoice.addProduct(product);
+        }
+        
+        Assert.assertTrue(invoice.getProducts().containsKey(product));
+        Assert.assertEquals(additions, invoice.getProducts().get(product));      
+    }
+
+    @Test
+    public void testProductAmountIncreasesWhenAddedWithQuantity()
+    {
+    	Product product = new TaxFreeProduct("Owczy ser", new BigDecimal("30"));  
+
+        Integer quantity1 = 3;
+        invoice.addProduct(product, quantity1);
+        
+        Integer quantity2 = 5;
+        invoice.addProduct(product, quantity2);
+
+        Assert.assertTrue(invoice.getProducts().containsKey(product));
+        Assert.assertEquals(Integer.valueOf(quantity1 + quantity2), invoice.getProducts().get(product));      
+    }
+
+    @Test
+    public void testNewPositionIsCreatedWhenAddingSameProductWithDifferentPriceSingly()
+    {
+    	Product product1 = new TaxFreeProduct("Owczy ser", new BigDecimal("30"));
+    	Product product2 = new TaxFreeProduct("Owczy ser", new BigDecimal("40"));
+
+        invoice.addProduct(product1);
+        invoice.addProduct(product2);
+        
+        Assert.assertTrue(invoice.getProducts().containsKey(product1));
+        Assert.assertTrue(invoice.getProducts().containsKey(product2));
+        Assert.assertEquals(2, invoice.getProducts().size());
+        Assert.assertEquals(Integer.valueOf(1), invoice.getProducts().get(product1));      
+        Assert.assertEquals(Integer.valueOf(1), invoice.getProducts().get(product2)); 
+
+    }
+
+    @Test
+    public void testNewPositionIsCreatedWhenAddingSameProductWithDifferentPriceWithQuantity()
+    {
+    	Product product1 = new TaxFreeProduct("Owczy ser", new BigDecimal("30"));
+    	Product product2 = new TaxFreeProduct("Owczy ser", new BigDecimal("40"));
+
+        Integer quantity1 = 3;
+        invoice.addProduct(product1, quantity1);
+        
+        Integer quantity2 = 5;
+        invoice.addProduct(product2, quantity2);
+
+        Assert.assertTrue(invoice.getProducts().containsKey(product1));
+        Assert.assertTrue(invoice.getProducts().containsKey(product2));
+        Assert.assertEquals(2, invoice.getProducts().size());
+        Assert.assertEquals(quantity1, invoice.getProducts().get(product1));    
+        Assert.assertEquals(quantity2, invoice.getProducts().get(product2));   
+
+    }
 }
