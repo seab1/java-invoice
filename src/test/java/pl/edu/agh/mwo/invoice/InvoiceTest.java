@@ -13,6 +13,8 @@ import pl.edu.agh.mwo.invoice.product.DairyProduct;
 import pl.edu.agh.mwo.invoice.product.OtherProduct;
 import pl.edu.agh.mwo.invoice.product.Product;
 import pl.edu.agh.mwo.invoice.product.TaxFreeProduct;
+import pl.edu.agh.mwo.invoice.product.AlcoholProduct;
+import pl.edu.agh.mwo.invoice.product.FuelProduct;
 
 public class InvoiceTest {
     private Invoice invoice;
@@ -233,5 +235,76 @@ public class InvoiceTest {
         Assert.assertEquals(quantity1, invoice.getProducts().get(product1));    
         Assert.assertEquals(quantity2, invoice.getProducts().get(product2));   
 
+    }
+    
+    @Test
+    public void testNewPositionIsCreatedWhenAddingSameProductWithDifferentTaxSingly()
+    {
+        Product product1 = new DairyProduct("Mleko", new BigDecimal("8"));
+        Product product2 = new OtherProduct("Mleko", new BigDecimal("8"));
+
+        invoice.addProduct(product1);
+        invoice.addProduct(product2);
+
+        Assert.assertTrue(invoice.getProducts().containsKey(product1));
+        Assert.assertTrue(invoice.getProducts().containsKey(product2));
+        Assert.assertEquals(2, invoice.getProducts().size());
+        Assert.assertEquals(Integer.valueOf(1), invoice.getProducts().get(product1));      
+        Assert.assertEquals(Integer.valueOf(1), invoice.getProducts().get(product2)); 
+
+    }
+
+    @Test
+    public void testNewPositionIsCreatedWhenAddingSameProductWithDifferentTaxWithQuantity()
+    {
+        Product product1 = new DairyProduct("Mleko", new BigDecimal("8"));
+        Product product2 = new OtherProduct("Mleko", new BigDecimal("8"));
+
+        Integer quantity1 = 3;
+        invoice.addProduct(product1, quantity1);
+        
+        Integer quantity2 = 5;
+        invoice.addProduct(product2, quantity2);
+
+        Assert.assertTrue(invoice.getProducts().containsKey(product1));
+        Assert.assertTrue(invoice.getProducts().containsKey(product2));
+        Assert.assertEquals(2, invoice.getProducts().size());
+        Assert.assertEquals(quantity1, invoice.getProducts().get(product1));
+        Assert.assertEquals(quantity2, invoice.getProducts().get(product2));
+    }
+
+    @Test
+    public void testNewPositionIsCreatedWhenAddingSameProductWithDifferentExciseSingly()
+    {
+        Product product1 = new AlcoholProduct("Spirytus", new BigDecimal("30"));
+        Product product2 = new OtherProduct("Spirytus", new BigDecimal("30"));
+
+        invoice.addProduct(product1);
+        invoice.addProduct(product2);
+
+        Assert.assertTrue(invoice.getProducts().containsKey(product1));
+        Assert.assertTrue(invoice.getProducts().containsKey(product2));
+        Assert.assertEquals(2, invoice.getProducts().size());
+        Assert.assertEquals(Integer.valueOf(1), invoice.getProducts().get(product1));      
+        Assert.assertEquals(Integer.valueOf(1), invoice.getProducts().get(product2));         
+    }
+
+    @Test
+    public void testNewPositionIsCreatedWhenAddingSameProductWithDifferentExciseWithQuantity()
+    {
+        Product product1 = new AlcoholProduct("Spirytus", new BigDecimal("30"));
+        Product product2 = new OtherProduct("Spirytus", new BigDecimal("30"));
+
+        Integer quantity1 = 3;
+        invoice.addProduct(product1, quantity1);
+        
+        Integer quantity2 = 5;
+        invoice.addProduct(product2, quantity2);
+
+        Assert.assertTrue(invoice.getProducts().containsKey(product1));
+        Assert.assertTrue(invoice.getProducts().containsKey(product2));
+        Assert.assertEquals(2, invoice.getProducts().size());
+        Assert.assertEquals(quantity1, invoice.getProducts().get(product1));    
+        Assert.assertEquals(quantity2, invoice.getProducts().get(product2));          
     }
 }
